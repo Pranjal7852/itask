@@ -92,12 +92,21 @@ export class AppComponent implements OnInit {
   }
 
   onGenerateNote(task: Task) {
+    this.tasks = this.tasks.map(t => 
+      t.id === task.id ? { ...t, isGeneratingNote: true } : t
+    );
+    
     this.taskService.generateAiNote(task.id).subscribe({
       next: (updatedTask: Task) => {
-        this.tasks = this.tasks.map(t => t.id === updatedTask.id ? updatedTask : t);
+        this.tasks = this.tasks.map(t => 
+          t.id === updatedTask.id ? { ...updatedTask, isGeneratingNote: false } : t
+        );
       },
       error: (error: Error) => {
         console.error('Error generating note:', error);
+        this.tasks = this.tasks.map(t => 
+          t.id === task.id ? { ...t, isGeneratingNote: false } : t
+        );
       }
     });
   }

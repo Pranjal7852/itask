@@ -1,0 +1,63 @@
+<div class="pagination-container" *ngIf="totalItems > 0">
+  <!-- Items per page selector -->
+  <div class="items-per-page">
+    <mat-form-field appearance="outline" class="items-select">
+      <mat-label>Items per page</mat-label>
+      <mat-select [(ngModel)]="itemsPerPage" (selectionChange)="onItemsPerPageChange()">
+        <mat-option *ngFor="let option of itemsPerPageOptions" [value]="option">
+          {{ option }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <!-- Pagination info -->
+  <div class="pagination-info">
+    <span class="info-text">
+      Showing {{ getStartItem() }} - {{ getEndItem() }} of {{ totalItems }} tasks
+    </span>
+  </div>
+
+  <!-- Pagination controls -->
+  <div class="pagination-controls" *ngIf="totalPages > 1">
+    <!-- Previous button -->
+    <button 
+      mat-icon-button 
+      [disabled]="currentPage === 1"
+      (click)="onPreviousPage()"
+      class="nav-button"
+      aria-label="Previous page">
+      <mat-icon>chevron_left</mat-icon>
+    </button>
+
+    <!-- Page numbers -->
+    <div class="page-numbers">
+      <button 
+        *ngFor="let page of pages"
+        mat-button
+        [class.current-page]="page === currentPage"
+        [class.ellipsis]="page === -1"
+        [disabled]="page === -1"
+        (click)="onPageClick(page)"
+        class="page-button">
+        {{ page === -1 ? '...' : page }}
+      </button>
+    </div>
+
+    <!-- Next button -->
+    <button 
+      mat-icon-button 
+      [disabled]="currentPage === totalPages"
+      (click)="onNextPage()"
+      class="nav-button"
+      aria-label="Next page">
+      <mat-icon>chevron_right</mat-icon>
+    </button>
+  </div>
+</div>
+
+<!-- No items message -->
+<div class="no-items" *ngIf="totalItems === 0">
+  <mat-icon class="no-items-icon">inbox</mat-icon>
+  <span class="no-items-text">No tasks found</span>
+</div> 

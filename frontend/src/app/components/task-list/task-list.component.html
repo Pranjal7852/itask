@@ -1,10 +1,20 @@
 <div class="tasks-container">
   <app-task-card
-    *ngFor="let task of tasks"
+    *ngFor="let task of paginatedTasks; let i = index"
     [task]="task"
     [statusOptions]="statusOptions"
+    [taskNumber]="getTaskNumber(i)"
     (statusChange)="onTaskStatusChange($event)"
     (delete)="onTaskDelete($event)"
     (generateNote)="onGenerateNote($event)">
   </app-task-card>
-</div> 
+</div>
+
+<!-- Pagination Component -->
+<app-task-pagination
+  [totalItems]="tasks.length"
+  [itemsPerPage]="itemsPerPage"
+  [currentPage]="currentPage"
+  (pageChange)="onPageChange($event)"
+  (itemsPerPageChange)="onItemsPerPageChange($event)">
+</app-task-pagination> 

@@ -6,7 +6,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatDividerModule } from '@angular/material/divider';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Task, TaskStatus } from '../../models/task.model';
 
@@ -23,13 +22,13 @@ import { Task, TaskStatus } from '../../models/task.model';
     MatSelectModule,
     MatButtonModule,
     MatIconModule,
-    MatDividerModule,
     MatProgressSpinnerModule
   ]
 })
 export class TaskCardComponent {
   @Input() task!: Task;
   @Input() statusOptions: TaskStatus[] = [];
+  @Input() taskNumber: number = 0;
   
   @Output() statusChange = new EventEmitter<Task>();
   @Output() delete = new EventEmitter<string>();
@@ -45,5 +44,16 @@ export class TaskCardComponent {
 
   onGenerateNote() {
     this.generateNote.emit(this.task);
+  }
+
+  getCardClasses() {
+    const statusClass = 'status-' + this.task.status.toLowerCase().replace('_', '-');
+    const classes = [statusClass];
+    
+    if (this.task.isGeneratingNote) {
+      classes.push('generating');
+    }
+    
+    return classes.join(' ');
   }
 } 

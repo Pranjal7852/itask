@@ -1,8 +1,9 @@
-<mat-card class="task-card" [ngClass]="'status-' + task.status.toLowerCase().replace('_', '-')">
+<mat-card class="task-card" 
+  [ngClass]="getCardClasses()">
   <mat-card-header>
     <mat-card-title>
       <mat-icon class="task-icon">task_alt</mat-icon>
-      {{ task.title }}
+      {{   taskNumber + ". " + task.title}}
       <span class="status-badge">{{ task.status.replace('_', ' ') }}</span>
     </mat-card-title>
     <mat-card-subtitle>
@@ -36,10 +37,21 @@
     <button mat-icon-button color="warn" (click)="onDelete()" aria-label="Delete task">
       <mat-icon>delete</mat-icon>
     </button>
-    <button mat-flat-button color="accent" (click)="onGenerateNote()" [disabled]="task.isGeneratingNote">
-      <mat-spinner *ngIf="task.isGeneratingNote" [diameter]="20" class="inline-spinner"></mat-spinner>
-      <mat-icon *ngIf="!task.isGeneratingNote">auto_awesome</mat-icon>
-      <span *ngIf="!task.isGeneratingNote">Generate AI Note</span>
+    <button 
+      mat-flat-button 
+      color="accent" 
+      (click)="onGenerateNote()" 
+      [disabled]="task.isGeneratingNote"
+      [class.loading]="task.isGeneratingNote"
+      class="ai-note-button">
+      <div *ngIf="task.isGeneratingNote" class="loading-content">
+        <mat-spinner [diameter]="18" class="loading-spinner"></mat-spinner>
+        <span class="loading-text">{{ task.aiNote ? 'Regenerating...' : 'Generating...' }}</span>
+      </div>
+      <div *ngIf="!task.isGeneratingNote" class="button-content">
+        <mat-icon>{{ task.aiNote ? 'refresh' : 'auto_awesome' }}</mat-icon>
+        <span>{{ task.aiNote ? 'Regenerate AI Note' : 'Generate AI Note' }}</span>
+      </div>
     </button>
   </mat-card-actions>
 </mat-card> 
