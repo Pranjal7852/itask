@@ -1,90 +1,16 @@
-<mat-toolbar>
-  <span class="toolbar-title">
-    <mat-icon class="toolbar-icon">smart_toy</mat-icon>
-    AI-Powered Task Manager
-  </span>
-</mat-toolbar>
+<app-header></app-header>
 
 <div class="container">
-  <mat-card class="task-input-card">
-    <mat-card-header>
-      <mat-card-title>
-        <mat-icon class="card-icon">add_task</mat-icon>
-        Create New Task
-      </mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <form (ngSubmit)="addTask()" class="task-form">
-        <mat-form-field appearance="outline">
-          <mat-label>Task Title</mat-label>
-          <input matInput [(ngModel)]="newTask.title" name="title" required>
-          <mat-icon matSuffix>title</mat-icon>
-        </mat-form-field>
+  <app-task-form (taskCreated)="onTaskCreated($event)"></app-task-form>
 
-        <mat-form-field appearance="outline">
-          <mat-label>Description</mat-label>
-          <textarea matInput [(ngModel)]="newTask.description" name="description" rows="3"></textarea>
-          <mat-icon matSuffix>description</mat-icon>
-        </mat-form-field>
+  <app-loading-spinner *ngIf="isLoading"></app-loading-spinner>
 
-        <button mat-raised-button color="primary" type="submit">
-          <mat-icon>add</mat-icon>
-          Add Task
-        </button>
-      </form>
-    </mat-card-content>
-  </mat-card>
-
-  <div *ngIf="isLoading" class="loading-spinner">
-    <mat-spinner diameter="40"></mat-spinner>
-    <p>Loading Tasks...</p>
-  </div>
-
-  <div *ngIf="!isLoading" class="tasks-container">
-    <mat-card *ngFor="let task of tasks" class="task-card">
-      <mat-card-header>
-        <mat-card-title>
-          <mat-icon class="task-icon">task_alt</mat-icon>
-          {{ task.title }}
-        </mat-card-title>
-        <mat-card-subtitle>
-          <mat-icon class="time-icon">schedule</mat-icon>
-          Created: {{ task.createdAt | date:'medium' }}
-        </mat-card-subtitle>
-      </mat-card-header>
-
-      <mat-card-content>
-        <p class="task-description">{{ task.description }}</p>
-
-        <mat-form-field class="status-select" appearance="outline">
-          <mat-label>Status</mat-label>
-          <mat-select [(ngModel)]="task.status" (selectionChange)="updateTask(task)">
-            <mat-option *ngFor="let status of statusOptions" [value]="status">
-              {{ status.replace('_', ' ') }}
-            </mat-option>
-          </mat-select>
-          <mat-icon matSuffix>flag</mat-icon>
-        </mat-form-field>
-        
-        <div *ngIf="task.aiNote" class="ai-note-container">
-          <mat-divider></mat-divider>
-          <div class="ai-note">
-            <mat-icon class="ai-icon">smart_toy</mat-icon>
-            <span>{{ task.aiNote }}</span>
-          </div>
-        </div>
-      </mat-card-content>
-      
-      <mat-card-actions align="end">
-        <button mat-icon-button color="warn" (click)="deleteTask(task.id)" aria-label="Delete task">
-          <mat-icon>delete</mat-icon>
-        </button>
-        <button mat-flat-button color="accent" (click)="generateNote(task)" [disabled]="task.isGeneratingNote">
-          <mat-spinner *ngIf="task.isGeneratingNote" [diameter]="20" class="inline-spinner"></mat-spinner>
-          <mat-icon *ngIf="!task.isGeneratingNote">auto_awesome</mat-icon>
-          <span *ngIf="!task.isGeneratingNote">Generate AI Note</span>
-        </button>
-      </mat-card-actions>
-    </mat-card>
-  </div>
+  <app-task-list
+    *ngIf="!isLoading"
+    [tasks]="tasks"
+    [statusOptions]="statusOptions"
+    (taskStatusChange)="onTaskStatusChange($event)"
+    (taskDelete)="onTaskDelete($event)"
+    (generateNote)="onGenerateNote($event)">
+  </app-task-list>
 </div>

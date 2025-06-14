@@ -1,0 +1,10 @@
+<div class="tasks-container">
+  <app-task-card
+    *ngFor="let task of tasks"
+    [task]="task"
+    [statusOptions]="statusOptions"
+    (statusChange)="onTaskStatusChange($event)"
+    (delete)="onTaskDelete($event)"
+    (generateNote)="onGenerateNote($event)">
+  </app-task-card>
+</div> 

@@ -1,0 +1,56 @@
+.task-card {
+  margin-bottom: 1rem;
+  background-color: white;
+  transition: transform 0.2s ease-in-out;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.task-icon {
+  color: #673ab7;
+  margin-right: 8px;
+}
+
+.time-icon {
+  color: #666;
+  font-size: 16px;
+  margin-right: 4px;
+}
+
+.task-description {
+  margin: 1rem 0;
+  color: #666;
+  white-space: pre-wrap;
+}
+
+.status-select {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.ai-note-container {
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+}
+
+.ai-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  color: #666;
+}
+
+.ai-icon {
+  color: #673ab7;
+  margin-top: 2px;
+}
+
+.inline-spinner {
+  display: inline-block;
+  margin-right: 8px;
+} 

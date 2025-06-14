@@ -1,43 +1,31 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { FormsModule } from '@angular/forms'; 
 import { CommonModule } from '@angular/common';
-
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatIconModule } from '@angular/material/icon';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatSelectModule } from '@angular/material/select';
-
 import { Task, TaskStatus } from './models/task.model';
 import { TaskService } from './services/tasks.service';
+import { HeaderComponent } from './components/header/header.component';
+import { TaskFormComponent } from './components/task-form/task-form.component';
+import { TaskListComponent } from './components/task-list/task-list.component';
+import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
 
 @Component({
   selector: 'app-root',
-  standalone: true,
-  imports: [RouterOutlet, FormsModule, CommonModule, MatButtonModule, MatCardModule, MatFormFieldModule, MatInputModule, MatToolbarModule, MatIconModule, MatProgressSpinnerModule, MatDividerModule, MatSelectModule],
   templateUrl: './app.html',
-  styleUrl: './app.scss'
-
+  styleUrls: ['./app.scss'],
+  standalone: true,
+  imports: [
+    CommonModule,
+    HeaderComponent,
+    TaskFormComponent,
+    TaskListComponent,
+    LoadingSpinnerComponent
+  ]
 })
-export class App {
+export class AppComponent implements OnInit {
   tasks: Task[] = [];
-  isLoading = true;
-
-  newTask = {
-    title: '',
-    description: '',
-    status: TaskStatus.TODO
-  };
-
-  TaskStatus = TaskStatus;
+  isLoading = false;
   statusOptions = Object.values(TaskStatus);
 
-  constructor(private taskService: TaskService) { }
+  constructor(private taskService: TaskService) {}
 
   ngOnInit() {
     this.loadTasks();
@@ -46,53 +34,65 @@ export class App {
   loadTasks() {
     this.isLoading = true;
     this.taskService.getTasks().subscribe({
-      next: (tasks) => {
-        this.tasks = tasks.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+      next: (tasks: Task[]) => {
+        this.tasks = tasks;
         this.isLoading = false;
       },
-      error: (err) => {
-        console.error('Failed to load tasks', err);
+      error: (error: Error) => {
+        console.error('Error loading tasks:', error);
         this.isLoading = false;
       }
     });
   }
 
-  addTask() {
-    if (!this.newTask.title.trim()) return;
-    this.taskService.addTask(this.newTask).subscribe(task => {
-      this.tasks.unshift(task);
-      this.newTask = { title: '', description: '', status: TaskStatus.TODO };
-    });
-  }
-
-  updateTask(task: Task) {
-    task.isEditing = false;
-    this.taskService.updateTask(task.id, task).subscribe({
-      next: (updatedTask) => {
-        const index = this.tasks.findIndex(t => t.id === updatedTask.id);
-        if (index !== -1) {
-          this.tasks[index] = updatedTask;
-        }
+  onTaskCreated(task: Task) {
+    this.taskService.addTask({
+      title: task.title,
+      description: task.description,
+      status: task.status
+    }).subscribe({
+      next: (newTask: Task) => {
+        this.tasks = [...this.tasks, newTask];
+      },
+      error: (error: Error) => {
+        console.error('Error creating task:', error);
       }
     });
   }
 
-  deleteTask(id: string) {
-    this.taskService.deleteTask(id).subscribe(() => {
-      this.tasks = this.tasks.filter(t => t.id !== id);
+  onTaskStatusChange(task: Task) {
+    this.taskService.updateTask(task.id, {
+      title: task.title,
+      description: task.description,
+      status: task.status
+    }).subscribe({
+      next: (updatedTask: Task) => {
+        this.tasks = this.tasks.map(t => t.id === updatedTask.id ? updatedTask : t);
+      },
+      error: (error: Error) => {
+        console.error('Error updating task:', error);
+      }
     });
   }
 
-  generateNote(task: Task) {
-    task.isGeneratingNote = true;
+  onTaskDelete(taskId: string) {
+    this.taskService.deleteTask(taskId).subscribe({
+      next: () => {
+        this.tasks = this.tasks.filter(t => t.id !== taskId);
+      },
+      error: (error: Error) => {
+        console.error('Error deleting task:', error);
+      }
+    });
+  }
+
+  onGenerateNote(task: Task) {
     this.taskService.generateAiNote(task.id).subscribe({
-      next: (updatedTask) => {
-        task.aiNote = updatedTask.aiNote;
-        task.updatedAt = updatedTask.updatedAt;
-        task.isGeneratingNote = false;
+      next: (updatedTask: Task) => {
+        this.tasks = this.tasks.map(t => t.id === updatedTask.id ? updatedTask : t);
       },
-      error: () => {
-        task.isGeneratingNote = false;
+      error: (error: Error) => {
+        console.error('Error generating note:', error);
       }
     });
   }

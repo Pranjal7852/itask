@@ -1,3 +1,35 @@
+@use '@angular/material' as mat;
+
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: #f5f5f5;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+// Material theme customization
+.mat-mdc-card {
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.mat-mdc-toolbar {
+  background-color: white;
+  color: #333;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.mat-mdc-button {
+  text-transform: none;
+  font-weight: 500;
+}
+
 :host {
   display: block;
   min-height: 100vh;
@@ -12,12 +44,6 @@ mat-toolbar {
   position: sticky;
   top: 0;
   z-index: 1000;
-}
-
-.container {
-  padding: 32px;
-  max-width: 1000px;
-  margin: 0 auto;
 }
 
 .task-input-card {
