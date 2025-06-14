@@ -31,6 +31,12 @@ services:
     volumes:
       - ./backend:/app
       - /app/node_modules
+    command:  >
+      sh -c "
+        yarn migration:run &&
+        yarn seed &&
+        yarn start:dev
+      "
 
   frontend:
     build:
