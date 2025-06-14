@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-
-declare const process: any;
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -8,6 +7,6 @@ declare const process: any;
 export class EnvironmentService {
   
   get apiUrl(): string {
-    return process?.env?.['API_URL'] || 'http://localhost:3000/api';
+    return environment.apiUrl;
   }
 } 
