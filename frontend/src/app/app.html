@@ -2,7 +2,12 @@
 
 <div class="container">
   
-  <app-task-form (taskCreated)="onTaskCreated($event)"></app-task-form>
+  <app-task-form 
+    [editingTask]="editingTask" 
+    [isEditMode]="isEditMode"
+    (taskCreated)="onTaskCreated($event)"
+    (taskUpdated)="onTaskUpdated($event)"
+    (cancelEdit)="exitEditMode()"></app-task-form>
 
  <app-task-filter
     [tasks]="tasks"
@@ -19,6 +24,7 @@
     [statusOptions]="statusOptions"
     (taskStatusChange)="onTaskStatusChange($event)"
     (taskDelete)="onTaskDelete($event)"
+    (taskEdit)="onTaskEdit($event)"
     (generateNote)="onGenerateNote($event)">
   </app-task-list>
 </div>

@@ -28,6 +28,10 @@ export class AppComponent implements OnInit {
   isLoading = false;
   statusOptions = Object.values(TaskStatus);
   selectedFilter: FilterType = 'ALL';
+  
+  // Edit mode properties
+  editingTask: Task | null = null;
+  isEditMode: boolean = false;
 
   constructor(private taskService: TaskService) {}
 
@@ -63,6 +67,34 @@ export class AppComponent implements OnInit {
         console.error('Error creating task:', error);
       }
     });
+  }
+
+  onTaskUpdated(task: Task) {
+    this.taskService.updateTask(task.id, {
+      title: task.title,
+      description: task.description,
+      status: task.status
+    }).subscribe({
+      next: (updatedTask: Task) => {
+        this.tasks = this.tasks.map(t => t.id === updatedTask.id ? updatedTask : t);
+        this.exitEditMode();
+      },
+      error: (error: Error) => {
+        console.error('Error updating task:', error);
+      }
+    });
+  }
+
+  onTaskEdit(task: Task) {
+    this.editingTask = task;
+    this.isEditMode = true;
+    // Scroll to the form
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  exitEditMode() {
+    this.editingTask = null;
+    this.isEditMode = false;
   }
 
   onTaskStatusChange(task: Task) {

@@ -1,8 +1,8 @@
-<mat-card class="task-input-card">
+<mat-card class="task-input-card" [ngClass]="{ 'edit-mode': isEditMode }">
   <mat-card-header>
     <mat-card-title>
-      <mat-icon class="card-icon">add_task</mat-icon>
-      Create New Task
+      <mat-icon class="card-icon">{{ isEditMode ? 'edit' : 'add_task' }}</mat-icon>
+      {{ isEditMode ? 'Edit Task' : 'Create New Task' }}
     </mat-card-title>
   </mat-card-header>
   <mat-card-content>
@@ -19,10 +19,17 @@
         <mat-icon matSuffix>description</mat-icon>
       </mat-form-field>
 
-      <button mat-raised-button color="primary" type="submit">
-        <mat-icon>add</mat-icon>
-        Add Task
-      </button>
+      <div class="form-buttons">
+        <button mat-raised-button color="primary" type="submit">
+          <mat-icon>{{ isEditMode ? 'save' : 'add' }}</mat-icon>
+          {{ isEditMode ? 'Update Task' : 'Add Task' }}
+        </button>
+        
+        <button *ngIf="isEditMode" mat-button type="button" (click)="onCancel()" class="cancel-button">
+          <mat-icon>cancel</mat-icon>
+          Cancel
+        </button>
+      </div>
     </form>
   </mat-card-content>
 </mat-card> 

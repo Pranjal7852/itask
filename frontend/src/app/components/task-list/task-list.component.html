@@ -6,6 +6,7 @@
     [taskNumber]="getTaskNumber(i)"
     (statusChange)="onTaskStatusChange($event)"
     (delete)="onTaskDelete($event)"
+    (edit)="onTaskEdit($event)"
     (generateNote)="onGenerateNote($event)">
   </app-task-card>
 </div>

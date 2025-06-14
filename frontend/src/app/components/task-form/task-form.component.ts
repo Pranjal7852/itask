@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -13,6 +14,7 @@ import { Task, TaskStatus } from '../../models/task.model';
   styleUrls: ['./task-form.component.scss'],
   standalone: true,
   imports: [
+    CommonModule,
     FormsModule,
     MatCardModule,
     MatFormFieldModule,
@@ -21,8 +23,13 @@ import { Task, TaskStatus } from '../../models/task.model';
     MatIconModule
   ]
 })
-export class TaskFormComponent {
+export class TaskFormComponent implements OnChanges {
   @Output() taskCreated = new EventEmitter<Task>();
+  @Output() taskUpdated = new EventEmitter<Task>();
+  @Output() cancelEdit = new EventEmitter<void>();
+  
+  @Input() editingTask: Task | null = null;
+  @Input() isEditMode: boolean = false;
   
   task: Partial<Task> = {
     title: '',
@@ -34,18 +41,38 @@ export class TaskFormComponent {
     isGeneratingNote: false
   };
 
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['editingTask'] && this.editingTask) {
+      this.task = { ...this.editingTask };
+    } else if (changes['isEditMode'] && !this.isEditMode) {
+      this.resetForm();
+    }
+  }
+
   onSubmit() {
     if (this.task.title?.trim()) {
-      this.taskCreated.emit({ ...this.task } as Task);
-      this.task = {
-        title: '',
-        description: '',
-        status: TaskStatus.TODO,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-        aiNote: '',
-        isGeneratingNote: false
-      };
+      if (this.isEditMode && this.editingTask) {
+        this.taskUpdated.emit({ ...this.task } as Task);
+      } else {
+        this.taskCreated.emit({ ...this.task } as Task);
+        this.resetForm();
+      }
     }
+  }
+
+  onCancel() {
+    this.cancelEdit.emit();
+  }
+
+  private resetForm() {
+    this.task = {
+      title: '',
+      description: '',
+      status: TaskStatus.TODO,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      aiNote: '',
+      isGeneratingNote: false
+    };
   }
 } 

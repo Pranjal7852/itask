@@ -4,6 +4,15 @@
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   border: 1px solid #e0e0e0;
+  
+  &.edit-mode {
+    border: 2px solid #ff9800;
+    box-shadow: 0 4px 12px rgba(255, 152, 0, 0.2);
+    
+    .mat-mdc-card-header {
+      background-color: #fff3e0;
+    }
+  }
 }
 
 .card-icon {
@@ -40,4 +49,24 @@ button[type="submit"] {
   mat-icon {
     margin-right: 8px;
   }
+}
+
+.cancel-button {
+  margin-left: 12px;
+  color: #666666;
+  
+  &:hover {
+    background-color: #f5f5f5;
+  }
+  
+  mat-icon {
+    margin-right: 8px;
+  }
+}
+
+.form-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
 } 

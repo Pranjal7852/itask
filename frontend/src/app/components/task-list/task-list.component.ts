@@ -18,6 +18,7 @@ export class TaskListComponent implements OnChanges {
   @Output() taskStatusChange = new EventEmitter<Task>();
   @Output() taskDelete = new EventEmitter<string>();
   @Output() generateNote = new EventEmitter<Task>();
+  @Output() taskEdit = new EventEmitter<Task>();
 
   // Pagination properties
   currentPage: number = 1;
@@ -36,6 +37,10 @@ export class TaskListComponent implements OnChanges {
 
   onTaskDelete(taskId: string) {
     this.taskDelete.emit(taskId);
+  }
+
+  onTaskEdit(task: Task) {
+    this.taskEdit.emit(task);
   }
 
   onGenerateNote(task: Task) {

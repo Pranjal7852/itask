@@ -33,6 +33,7 @@ export class TaskCardComponent {
   @Output() statusChange = new EventEmitter<Task>();
   @Output() delete = new EventEmitter<string>();
   @Output() generateNote = new EventEmitter<Task>();
+  @Output() edit = new EventEmitter<Task>();
 
   onStatusChange() {
     this.statusChange.emit(this.task);
@@ -40,6 +41,10 @@ export class TaskCardComponent {
 
   onDelete() {
     this.delete.emit(this.task.id);
+  }
+
+  onEdit() {
+    this.edit.emit(this.task);
   }
 
   onGenerateNote() {
