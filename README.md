@@ -33,16 +33,14 @@ A full-stack task management application built with **Angular 20** frontend, **N
 
 ```bash
 # Clone the repository
-git clone <your-repo-url>
-cd SAP
+git clone https://github.com/Pranjal7852/itask
+cd itask
 
-# Create environment file from template
-cp env.template .env
 ```
 
-### 2. Configure Environment (Optional)
+### 2. Configure Environment
 
-Edit the `.env` file to customize database credentials:
+Rename the `example.env` file to `.env`. (I have added all the secrets to example.env file for simplicity sake. Not recommended for production or any project). If you still wish to use any other values fell free to do so.
 
 ```env
 # Database Configuration
@@ -61,6 +59,8 @@ API_URL=http://localhost:3000/api
 ```
 
 ### 3. Run the Application
+
+The entire application has been containerized using docker-compose and I have also added the **migration** and **seeding** script to the DockerFile of the backend so that User does not have to care for it.
 
 ```bash
 # Build and start all services
@@ -98,30 +98,6 @@ docker-compose up -d
 # Stop all services
 docker-compose down
 
-# View logs (all services)
-docker-compose logs -f
-
-# View logs (specific service)
-docker-compose logs -f backend
-docker-compose logs -f frontend
-docker-compose logs -f postgres
-
-# Rebuild specific service
-docker-compose build backend
-docker-compose up -d backend
-```
-
-### Development Workflow
-
-```bash
-# Rebuild from scratch (clean build)
-docker-compose down -v
-docker-compose build --no-cache
-docker-compose up
-
-# Clean Docker system
-docker system prune -f
-docker volume prune -f
 ```
 
 ## 🔌 API Endpoints
@@ -201,7 +177,7 @@ docker volume prune -f
 
 | Variable | Description | Default |
 |----------|-------------|---------|
-| `POSTGRES_DB` | Database name | `sap_db` |
+| `POSTGRES_DB` | Database name | `task_manager` |
 | `POSTGRES_USER` | Database user | `postgres` |
 | `POSTGRES_PASSWORD` | Database password | `password123` |
 | `DB_HOST` | Database host (container name) | `postgres` |
