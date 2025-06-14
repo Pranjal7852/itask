@@ -1,0 +1,45 @@
+<mat-card class="filter-card">
+  <mat-card-content>
+    <div class="filter-buttons">
+      <button 
+        mat-button 
+        [class.active]="selectedFilter === 'ALL'"
+        (click)="onFilterChange('ALL')"
+        class="filter-btn">
+        <mat-icon>list</mat-icon>
+        All Tasks
+        <span class="task-count" *ngIf="taskCounts">{{ taskCounts.total }}</span>
+      </button>
+      
+      <button 
+        mat-button 
+        [class.active]="selectedFilter === TaskStatus.TODO"
+        (click)="onFilterChange(TaskStatus.TODO)"
+        class="filter-btn todo-btn">
+        <mat-icon>radio_button_unchecked</mat-icon>
+        To Do
+        <span class="task-count" *ngIf="taskCounts">{{ taskCounts.todo }}</span>
+      </button>
+      
+      <button 
+        mat-button 
+        [class.active]="selectedFilter === TaskStatus.IN_PROGRESS"
+        (click)="onFilterChange(TaskStatus.IN_PROGRESS)"
+        class="filter-btn in-progress-btn">
+        <mat-icon>schedule</mat-icon>
+        In Progress
+        <span class="task-count" *ngIf="taskCounts">{{ taskCounts.inProgress }}</span>
+      </button>
+      
+      <button 
+        mat-button 
+        [class.active]="selectedFilter === TaskStatus.DONE"
+        (click)="onFilterChange(TaskStatus.DONE)"
+        class="filter-btn done-btn">
+        <mat-icon>check_circle</mat-icon>
+        Done
+        <span class="task-count" *ngIf="taskCounts">{{ taskCounts.done }}</span>
+      </button>
+    </div>
+  </mat-card-content>
+</mat-card> 

@@ -2,28 +2,112 @@
   margin-bottom: 1rem;
   background-color: white;
   transition: transform 0.2s ease-in-out;
+  border-left: 4px solid #e0e0e0;
+  position: relative;
 
   &:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
+
+  // Status-based styling
+  &.status-todo {
+    border-left-color: #ff9800; // Orange
+    background: linear-gradient(135deg, #fff8e1 0%, #ffffff 100%);
+    
+    .task-icon {
+      color: #ff9800;
+    }
+    
+    .status-badge {
+      background-color: #ff9800;
+    }
+  }
+
+  &.status-in-progress {
+    border-left-color: #2196f3; // Blue
+    background: linear-gradient(135deg, #e3f2fd 0%, #ffffff 100%);
+    
+    .task-icon {
+      color: #2196f3;
+    }
+    
+    .status-badge {
+      background-color: #2196f3;
+    }
+  }
+
+  &.status-done {
+    border-left-color: #4caf50; // Green
+    background: linear-gradient(135deg, #e8f5e8 0%, #ffffff 100%);
+    
+    .task-icon {
+      color: #4caf50;
+    }
+    
+    .status-badge {
+      background-color: #4caf50;
+    }
+    
+    // Add strikethrough effect for completed tasks
+    .task-description {
+      opacity: 0.7;
+    }
+  }
+}
+
+// Status badge styling
+.status-badge {
+  margin-left: auto;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+// Fix card header alignment
+.mat-mdc-card-header {
+  .mat-mdc-card-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1.25rem;
+    font-weight: 500;
+  }
+
+  .mat-mdc-card-subtitle {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 8px;
+    font-size: 0.875rem;
+    color: #666;
+  }
 }
 
 .task-icon {
-  color: #673ab7;
-  margin-right: 8px;
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+  transition: color 0.3s ease;
 }
 
 .time-icon {
   color: #666;
   font-size: 16px;
-  margin-right: 4px;
+  width: 16px;
+  height: 16px;
 }
 
 .task-description {
   margin: 1rem 0;
   color: #666;
   white-space: pre-wrap;
+  line-height: 1.5;
+  transition: opacity 0.3s ease;
 }
 
 .status-select {
@@ -32,25 +116,113 @@
 }
 
 .ai-note-container {
-  margin-top: 1rem;
-  padding: 1rem;
-  background-color: #f8f9fa;
-  border-radius: 4px;
+  margin-top: 1.5rem;
+  padding: 0;
+  background: linear-gradient(135deg, #f3e5f5 0%, #fafafa 100%);
+  border-radius: 16px;
+  border: 1px solid #e1bee7;
+  box-shadow: 0 2px 8px rgba(103, 58, 183, 0.08);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 4px 16px rgba(103, 58, 183, 0.15);
+    transform: translateY(-1px);
+  }
 }
 
 .ai-note {
   display: flex;
   align-items: flex-start;
-  gap: 8px;
-  color: #666;
+  gap: 12px;
+  padding: 20px;
+  color: #424242;
+  line-height: 1.6;
+  font-size: 15px;
+  font-weight: 400;
+  position: relative;
+
+
+  span {
+    flex: 1;
+    margin: 0;
+    padding: 0;
+    font-style: italic;
+    text-align: justify;
+    
+    // Add quotation marks
+    &::before {
+      content: '"';
+      font-size: 24px;
+      color: #9c27b0;
+      font-weight: bold;
+      line-height: 1;
+      margin-right: 4px;
+      vertical-align: top;
+    }
+    
+    &::after {
+      content: '"';
+      font-size: 24px;
+      color: #9c27b0;
+      font-weight: bold;
+      line-height: 1;
+      margin-left: 4px;
+      vertical-align: bottom;
+    }
+  }
 }
 
 .ai-icon {
   color: #673ab7;
-  margin-top: 2px;
+  font-size: 24px;
+  width: 24px;
+  height: 24px;
+  margin-top: 0;
+  flex-shrink: 0;
+  background: linear-gradient(135deg, #673ab7, #9c27b0);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 1px 2px rgba(103, 58, 183, 0.3));
+  animation: pulse 2s ease-in-out infinite;
+}
+
+// Animations
+@keyframes shimmer {
+  0%, 100% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+// Fix button alignment in card actions
+.mat-mdc-card-actions {
+  padding: 8px 16px 16px;
+  
+  button {
+    margin-left: 8px;
+    
+    &:first-child {
+      margin-left: 0;
+    }
+  }
 }
 
 .inline-spinner {
   display: inline-block;
   margin-right: 8px;
+  vertical-align: middle;
 } 

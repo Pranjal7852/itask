@@ -1,13 +1,21 @@
 <app-header></app-header>
 
 <div class="container">
+  
   <app-task-form (taskCreated)="onTaskCreated($event)"></app-task-form>
+
+ <app-task-filter
+    [tasks]="tasks"
+    [selectedFilter]="selectedFilter"
+    (filterChange)="onFilterChange($event)"
+    (filteredTasks)="onFilteredTasksChange($event)">
+  </app-task-filter>
 
   <app-loading-spinner *ngIf="isLoading"></app-loading-spinner>
 
   <app-task-list
     *ngIf="!isLoading"
-    [tasks]="tasks"
+    [tasks]="filteredTasks"
     [statusOptions]="statusOptions"
     (taskStatusChange)="onTaskStatusChange($event)"
     (taskDelete)="onTaskDelete($event)"

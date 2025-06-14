@@ -6,6 +6,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { TaskFormComponent } from './components/task-form/task-form.component';
 import { TaskListComponent } from './components/task-list/task-list.component';
 import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
+import { TaskFilterComponent, FilterType } from './components/task-filter/task-filter.component';
 
 @Component({
   selector: 'app-root',
@@ -17,13 +18,16 @@ import { LoadingSpinnerComponent } from './components/loading-spinner/loading-sp
     HeaderComponent,
     TaskFormComponent,
     TaskListComponent,
-    LoadingSpinnerComponent
+    LoadingSpinnerComponent,
+    TaskFilterComponent
   ]
 })
 export class AppComponent implements OnInit {
   tasks: Task[] = [];
+  filteredTasks: Task[] = [];
   isLoading = false;
   statusOptions = Object.values(TaskStatus);
+  selectedFilter: FilterType = 'ALL';
 
   constructor(private taskService: TaskService) {}
 
@@ -36,6 +40,7 @@ export class AppComponent implements OnInit {
     this.taskService.getTasks().subscribe({
       next: (tasks: Task[]) => {
         this.tasks = tasks;
+        this.filteredTasks = tasks;
         this.isLoading = false;
       },
       error: (error: Error) => {
@@ -95,5 +100,13 @@ export class AppComponent implements OnInit {
         console.error('Error generating note:', error);
       }
     });
+  }
+
+  onFilterChange(filter: FilterType) {
+    this.selectedFilter = filter;
+  }
+
+  onFilteredTasksChange(filteredTasks: Task[]) {
+    this.filteredTasks = filteredTasks;
   }
 }

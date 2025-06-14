@@ -1,8 +1,9 @@
-<mat-card class="task-card">
+<mat-card class="task-card" [ngClass]="'status-' + task.status.toLowerCase().replace('_', '-')">
   <mat-card-header>
     <mat-card-title>
       <mat-icon class="task-icon">task_alt</mat-icon>
       {{ task.title }}
+      <span class="status-badge">{{ task.status.replace('_', ' ') }}</span>
     </mat-card-title>
     <mat-card-subtitle>
       <mat-icon class="time-icon">schedule</mat-icon>
@@ -24,7 +25,6 @@
     </mat-form-field>
     
     <div *ngIf="task.aiNote" class="ai-note-container">
-      <mat-divider></mat-divider>
       <div class="ai-note">
         <mat-icon class="ai-icon">smart_toy</mat-icon>
         <span>{{ task.aiNote }}</span>
