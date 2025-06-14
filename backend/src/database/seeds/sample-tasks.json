@@ -1,0 +1,40 @@
+{
+  "tasks": [
+    {
+      "title": "Setup Project Structure",
+      "description": "Initialize the NestJS project with proper folder structure and dependencies",
+      "status": "DONE",
+      "aiNote": "AI Analysis: This foundational task has been completed successfully. Great job on setting up a clean architecture!"
+    },
+    {
+      "title": "Implement Task API Endpoints",
+      "description": "Create REST endpoints for CRUD operations on tasks including GET, POST, PUT, DELETE",
+      "status": "IN_PROGRESS",
+      "aiNote": null
+    },
+    {
+      "title": "Add Database Integration",
+      "description": "Set up PostgreSQL database connection with TypeORM and create necessary migrations",
+      "status": "TODO",
+      "aiNote": null
+    },
+    {
+      "title": "Create Frontend UI",
+      "description": "Build a React frontend application to interact with the task management API",
+      "status": "TODO",
+      "aiNote": null
+    },
+    {
+      "title": "Implement AI Note Generation",
+      "description": "Add simulated AI functionality to generate helpful notes for tasks",
+      "status": "DONE",
+      "aiNote": "AI Insight: This feature adds great value by providing contextual suggestions. Consider expanding with more AI-powered features in the future."
+    },
+    {
+      "title": "Add Input Validation",
+      "description": "Implement proper validation for all API endpoints using class-validator",
+      "status": "IN_PROGRESS",
+      "aiNote": "AI Recommendation: Input validation is crucial for security and data integrity. Make sure to cover all edge cases."
+    }
+  ]
+} 
