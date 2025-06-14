@@ -1,4 +1,4 @@
-# SAP Task Management Application
+# Task Management Application
 
 A full-stack task management application built with **Angular 20** frontend, **NestJS** backend, and **PostgreSQL** database. The entire application is containerized and can be run with a single Docker Compose command.
 
@@ -46,9 +46,9 @@ Edit the `.env` file to customize database credentials:
 
 ```env
 # Database Configuration
-POSTGRES_DB=sap_db
-POSTGRES_USER=postgres
-POSTGRES_PASSWORD=password123
+POSTGRES_DB=
+POSTGRES_USER=
+POSTGRES_PASSWORD=
 
 # Backend Configuration
 DB_HOST=postgres
@@ -109,22 +109,6 @@ docker-compose logs -f postgres
 # Rebuild specific service
 docker-compose build backend
 docker-compose up -d backend
-```
-
-### Database Operations
-
-```bash
-# Access PostgreSQL directly
-docker-compose exec postgres psql -U postgres -d sap_db
-
-# Run database migrations
-docker-compose exec backend yarn migration:run
-
-# Seed database with sample data
-docker-compose exec backend yarn seed
-
-# Create database backup
-docker-compose exec postgres pg_dump -U postgres sap_db > backup.sql
 ```
 
 ### Development Workflow
@@ -229,108 +213,8 @@ docker volume prune -f
 |----------|-------------|---------|
 | `NODE_ENV` | Node environment | `production` |
 | `PORT` | Backend port | `3000` |
-| `JWT_SECRET` | JWT secret key | Generated |
 
-## 🐛 Troubleshooting
 
-### Common Issues
-
-#### Port Conflicts
-If ports are already in use, modify `docker-compose.yml`:
-```yaml
-services:
-  frontend:
-    ports:
-      - '4201:80'  # Change 4200 to 4201
-```
-
-#### Database Connection Issues
-```bash
-# Check if PostgreSQL is running
-docker-compose ps
-
-# Check backend logs for connection errors
-docker-compose logs backend
-
-# Restart database service
-docker-compose restart postgres
-```
-
-#### Frontend Not Loading
-```bash
-# Check if all services are running
-docker-compose ps
-
-# Rebuild frontend
-docker-compose build frontend
-docker-compose up -d frontend
-```
-
-#### Clear All Data and Restart
-```bash
-# Remove all containers and volumes
-docker-compose down -v
-
-# Remove all images (optional)
-docker rmi $(docker images -q)
-
-# Start fresh
-docker-compose up --build
-```
-
-### Performance Issues
-
-#### Slow Initial Build
-- The first build takes longer due to dependency installation
-- Subsequent builds use Docker layer caching for faster builds
-
-#### Development vs Production
-- Development: Volume mounting for live code changes
-- Production: Optimized builds with multi-stage Dockerfiles
-
-## 🚢 Production Deployment
-
-### Environment Setup
-1. Create production `.env` file with secure passwords
-2. Configure SSL certificates for HTTPS
-3. Set up reverse proxy (nginx) in front of containers
-4. Enable database backups and monitoring
-
-### Production Commands
-```bash
-# Production build (optimized)
-docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
-
-# Health checks
-docker-compose ps
-docker-compose logs -f --tail=100
-```
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature/new-feature`
-3. Make changes and test locally with Docker
-4. Commit changes: `git commit -m 'Add new feature'`
-5. Push to branch: `git push origin feature/new-feature`
-6. Create a Pull Request
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🆘 Support
-
-If you encounter any issues:
-
-1. Check the [Troubleshooting](#-troubleshooting) section
-2. Look at container logs: `docker-compose logs [service-name]`
-3. Create an issue in the repository with:
-   - Steps to reproduce
-   - Error logs
-   - Environment details
-
----
 
 **Happy Coding! 🚀**
 
