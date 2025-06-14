@@ -80,25 +80,10 @@ docker-compose up -d --build
 
 | Service | Technology | Port | Description |
 |---------|------------|------|-------------|
-| `frontend` | Angular 20 + Nginx | 4200:80 | Web application UI |
+| `frontend` | Angular 20 + Nginx | 4200:4200 | Web application UI |
 | `backend` | NestJS + Node.js | 3000:3000 | REST API server |
 | `postgres` | PostgreSQL 15 | 5432:5432 | Database server |
 
-## 🛠️ Development Commands
-
-### Basic Operations
-
-```bash
-# Start all services
-docker-compose up
-
-# Start in background
-docker-compose up -d
-
-# Stop all services
-docker-compose down
-
-```
 
 ## 🔌 API Endpoints
 
@@ -167,7 +152,7 @@ docker-compose down
 │   ├── Dockerfile          # Frontend container configuration
 │   └── package.json        # Frontend dependencies
 ├── docker-compose.yml      # Container orchestration
-├── env.template           # Environment variables template
+├── exmaple.env            # Environment variables Example
 └── README.md              # This file
 ```
 
