@@ -55,7 +55,7 @@ export class TasksService {
     const task = await this.findOne(id);
 
     // Simulate AI processing delay
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    await new Promise((resolve) => setTimeout(resolve, 3000));
 
     // Generate a simulated AI note based on task title and description
     const aiNotes = [
