@@ -2,9 +2,6 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import * as morgan from 'morgan';
-import { Express } from 'express';
-// @ts-ignore
-const morganBody = require('morgan-body') as (app: Express) => void;
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -15,8 +12,7 @@ async function bootstrap() {
   });
 
   // HTTP request logging
-  app.use(morgan('dev'));
-  morganBody(app.getHttpAdapter().getInstance() as Express);
+  app.use(morgan('combined'));
 
   // Global validation pipe
   app.useGlobalPipes(
@@ -33,4 +29,4 @@ async function bootstrap() {
   console.log(`Backend running on: http://localhost:${port}/api`);
 }
 
-void bootstrap();
+bootstrap();

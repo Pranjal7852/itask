@@ -21,11 +21,11 @@ async function seed() {
 
         const taskRepository = dataSource.getRepository(Task);
 
-        // Clear existing data
+        
         await taskRepository.clear();
         console.log('🗑️  Cleared existing tasks');
 
-        // Read and parse the JSON file
+        
         const seedDataPath = path.join(__dirname, 'sample-tasks.json');
         const seedData = JSON.parse(fs.readFileSync(seedDataPath, 'utf8')) as SeedData;
 
@@ -49,4 +49,4 @@ async function seed() {
     }
 }
 
-void seed();
+seed();

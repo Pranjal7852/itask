@@ -2,10 +2,8 @@ import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
 export class CreateTasksTable1718360289497 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
-    // Ensure uuid-ossp extension exists
     await queryRunner.query(`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`);
 
-    // Create the enum type explicitly if it doesn't exist
     await queryRunner.query(`
       DO $$ BEGIN
         IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'tasks_status_enum') THEN

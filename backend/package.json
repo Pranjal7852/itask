@@ -5,6 +5,7 @@
   "author": "",
   "private": true,
   "license": "UNLICENSED",
+  "type": "commonjs",
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
@@ -35,7 +36,6 @@
     "class-validator": "^0.14.2",
     "dotenv": "^16.4.5",
     "morgan": "^1.10.0",
-    "morgan-body": "^2.6.9",
     "nodemon": "^3.1.10",
     "pg": "^8.16.0",
     "reflect-metadata": "^0.2.2",

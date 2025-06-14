@@ -3,14 +3,17 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Task, TaskStatus } from '../models/task.model';
 import { catchError } from 'rxjs/operators';
+import { EnvironmentService } from './environment.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TaskService {
-  private apiBaseUrl = 'http://localhost:3000/api';
+  private apiBaseUrl: string;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private env: EnvironmentService) {
+    this.apiBaseUrl = this.env.apiUrl;
+  }
 
   getTasks(): Observable<Task[]> {
     return this.http.get<Task[]>(`${this.apiBaseUrl}/tasks`).pipe(
